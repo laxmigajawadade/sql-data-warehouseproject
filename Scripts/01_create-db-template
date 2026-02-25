@@ -1,0 +1,26 @@
+/*
+========================
+Create Database & Schema
+=========================
+Purpose:
+This script first checks if there a database exisixting with same name.
+If not ccreates a new database named 'DataWareHouse. 
+If exists then drop the previous db and create a new one.
+This also creates 3 schemas bronze, silver and gold inside the db.
+
+Warning: 
+Running this script might delete the whole database along with the data if 
+there is a database names "DataWareHouse" created previously. 
+Please proceed with caution.
+*/
+
+-- In postgres we have pg_database table which gives db names from current server.
+-- In below query if exists internally implements 'select datname from pg_database where datname='DataWareHouse' 
+-- force disconnects all active connections and drops db
+drop database if exists dwh(force);
+create database dwh;
+
+CREATE schema bronze;
+create schema silver;
+create schema gold;
+
