@@ -17,6 +17,7 @@ Please proceed with caution.
 -- In postgres we have pg_database table which gives db names from current server.
 -- In below query if exists internally implements 'select datname from pg_database where datname='DataWareHouse' 
 -- force disconnects all active connections and drops db
+
 drop database if exists dwh(force);
 create database dwh;
 
