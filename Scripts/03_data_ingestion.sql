@@ -42,11 +42,11 @@ For batch loads or re-runnable jobs, synchronous_commit = off
 can be acceptable because the operation can be executed again.
 */
 
-begin;	
-set local synchronous_commit = off;
-	truncate table crm_cust_info;
-	\copy  crm_cust_info
-	from 'D:\\vaarahi\\SQL Project\\data with baara proj\\sql-data-warehouse-project-main\\datasets\\source_crm\\cust_info.csv'
+	
+set  synchronous_commit = off;
+	truncate table bronze.crm_cust_info;
+copy  bronze.crm_cust_info
+	from '/app/datasets/source_crm/cust_info.csv'
 	with
 	(
 	header true,	--treat the first row as header 
@@ -54,9 +54,9 @@ set local synchronous_commit = off;
 	null ''  		--if empty field in the CSV (nothing between delimiters), treat it as NULL
 	);	
 
-	truncate table crm_product_info;
-	\copy crm_product_info
-	from 'D:\vaarahi\SQL Project\data with baara proj\sql-data-warehouse-project-main\datasets\source_crm\prd_info.csv'
+	truncate table bronze.crm_product_info;
+copy bronze.crm_product_info
+	from '/app/datasets/source_crm/prd_info.csv'
 	with 
 	(
 	header true,
@@ -65,9 +65,9 @@ set local synchronous_commit = off;
 	);
 	
 
-	truncate table crm_sales_details;
-	\copy crm_sales_details 
-	from 'D:\vaarahi\SQL Project\data with baara proj\sql-data-warehouse-project-main\datasets\source_crm\sales_details.csv'
+	truncate table bronze.crm_sales_details;
+copy bronze.crm_sales_details 
+	from '/app/datasets/source_crm/sales_details.csv'
 	with 
 	(
 		header true,
@@ -76,20 +76,19 @@ set local synchronous_commit = off;
 	);
 	
 	truncate table bronze.erp_cust_az12;
-	\copy bronze.erp_cust_az12 
-	from 'D:\vaarahi\SQL Project\data with baara proj\sql-data-warehouse-project-main\datasets\source_erp\CUST_AZ12.csv'
+copy bronze.erp_cust_az12 
+	from '/app/datasets/source_erp/CUST_AZ12.csv'
 	with ( header true, delimiter ',', null '');
 	
 	
 	truncate table bronze.erp_loc_a101;
-	\copy bronze.erp_loc_a101 
-	from 'D:\vaarahi\SQL Project\data with baara proj\sql-data-warehouse-project-main\datasets\source_erp\LOC_A101.csv'
+copy bronze.erp_loc_a101 
+	from '/app/datasets/source_erp/LOC_A101.csv'
 	with ( header true, delimiter ',', null '');
 	
 
 	truncate table bronze.erp_px_cat_g1v2;
-	\copy bronze.erp_px_cat_g1v2 
-	from 'D:\vaarahi\SQL Project\data with baara proj\sql-data-warehouse-project-main\datasets\source_erp\PX_CAT_G1V2.csv'
+copy bronze.erp_px_cat_g1v2 
+	from '/app/datasets/source_erp/PX_CAT_G1V2.csv'
 	with ( header true, delimiter ',', null '');
 	
-commit;
