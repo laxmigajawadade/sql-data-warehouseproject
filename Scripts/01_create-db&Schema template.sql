@@ -31,5 +31,3 @@ and then create the schemas. If not dwh will be created but schemas are created 
 CREATE schema bronze;
 create schema silver;
 create schema gold;
-
---/app/Scripts
