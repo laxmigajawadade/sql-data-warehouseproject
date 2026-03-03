@@ -14,6 +14,7 @@ there is a database names "DataWareHouse" created previously.
 Please proceed with caution.
 */
 
+
 -- In postgres we have pg_database table which gives db names from current server.
 -- In below query if exists internally implements 'select datname from pg_database where datname='DataWareHouse' 
 -- force disconnects all active connections and drops db
@@ -21,7 +22,14 @@ Please proceed with caution.
 drop database if exists dwh(force);
 create database dwh;
 
+/*Unlike MySql we don't have "Use db" to switch to the newly created database dwh in postgres. So we need to first switch to dwh
+and then create the schemas. If not dwh will be created but schemas are created in the existsing db*/
+
+--to change the db
+\c dwh 
+
 CREATE schema bronze;
 create schema silver;
 create schema gold;
 
+--/app/Scripts
