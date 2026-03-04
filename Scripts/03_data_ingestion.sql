@@ -53,8 +53,9 @@ begin
 	set  synchronous_commit = off;
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from crm to crm_cust_info table';
+	raise notice 'truncating table crm_cust_info';
 	truncate table bronze.crm_cust_info;
+	raise notice 'loading data from crm to crm_cust_info table';
 	copy  bronze.crm_cust_info
 	from '/app/datasets/source_crm/cust_info.csv'
 		with
@@ -69,8 +70,9 @@ begin
 	raise notice '----------------------------------------------';
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from crm to crm_product_info table';
+	raise notice 'truncating table crm_product_info';
 	truncate table bronze.crm_product_info;
+	raise notice 'loading data from crm to crm_product_info table';
 	copy bronze.crm_product_info
 	from '/app/datasets/source_crm/prd_info.csv'
 		with 
@@ -86,8 +88,9 @@ begin
 
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from crm to crm_sales_details table';
+	raise notice 'truncating table crm_sales_details';
 	truncate table bronze.crm_sales_details;
+	raise notice 'loading data from crm to crm_sales_details table';
 	copy bronze.crm_sales_details 
 	from '/app/datasets/source_crm/sales_details.csv'
 		with 
@@ -103,8 +106,9 @@ begin
 
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from erp to erp_cust_az12 table';
+	raise notice 'truncating table erp_cust_az12';
 	truncate table bronze.erp_cust_az12;
+	raise notice 'loading data from erp to erp_cust_az12 table';
 	copy bronze.erp_cust_az12 
 	from '/app/datasets/source_erp/CUST_AZ12.csv'
 		with 
@@ -120,8 +124,9 @@ begin
 
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from erp to erp_loc_a101 table';
+	raise notice 'truncating table erp_loc_a10';
 	truncate table bronze.erp_loc_a101;
+	raise notice 'loading data from erp to erp_loc_a101 table';
 	copy bronze.erp_loc_a101 
 	from '/app/datasets/source_erp/LOC_A101.csv'
 		with 
@@ -137,8 +142,9 @@ begin
 
 
 	raise notice '----------------------------------------------';
-	raise notice 'loading data from erp to erp_px_cat_g1v2 table';
+	raise notice 'truncating table erp_px_cat_g1v2';
 	truncate table bronze.erp_px_cat_g1v2;
+	raise notice 'loading data from erp to erp_px_cat_g1v2 table';
 	copy bronze.erp_px_cat_g1v2 
 	from '/app/datasets/source_erp/PX_CAT_G1V2.csv'
 		with
