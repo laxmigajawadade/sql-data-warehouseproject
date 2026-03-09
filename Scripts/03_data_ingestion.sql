@@ -45,7 +45,10 @@ can be acceptable because the operation can be executed again.
 create or replace procedure bronze.load_bronze()
 language plpgsql
 as $$
-declare rows_inserted integer;
+declare 
+rows_inserted integer;
+start_time TIMESTAMP;
+end_time TIMESTAMP;
 begin
 	 
 	raise notice '========================================';
@@ -58,6 +61,7 @@ begin
 		raise notice 'truncating table crm_cust_info';
 		truncate table bronze.crm_cust_info;
 		raise notice 'loading data from crm to crm_cust_info table';
+		start_time :=clock_timestamp();
 		copy  bronze.crm_cust_info
 		from '/app/datasets/source_crm/cust_info.csv'
 			with
@@ -66,15 +70,18 @@ begin
 			delimiter ',',  --csv file so seperate data at commas
 			null ''  		--if empty field in the CSV (nothing between delimiters), treat it as NULL
 			);	
+		end_time :=clock_timestamp();
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted;
 		raise notice 'load complete';
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 		raise notice '----------------------------------------------';
 		raise notice 'truncating table crm_product_info';
 		truncate table bronze.crm_product_info;
 		raise notice 'loading data from crm to crm_product_info table';
+		start_time :=clock_timestamp();
 		copy bronze.crm_product_info
 		from '/app/datasets/source_crm/prd_info.csv'
 			with 
@@ -83,9 +90,11 @@ begin
 			delimiter ',',
 			null ''
 			);
+		end_time :=clock_timestamp();
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted;
 		raise notice 'load complete to crm_product_info';
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 
@@ -93,6 +102,7 @@ begin
 		raise notice 'truncating table crm_sales_details';
 		truncate table bronze.crm_sales_details;
 		raise notice 'loading data from crm to crm_sales_details table';
+		start_time :=clock_timestamp();
 		copy bronze.crm_sales_details 
 		from '/app/datasets/source_crm/sales_details.csv'
 			with 
@@ -100,10 +110,12 @@ begin
 				header true,
 				delimiter ',',
 				null ''
-			);	
+			);
+		end_time :=clock_timestamp();	
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted; 
 		raise notice 'load complete to crm_sales_details';
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 
@@ -111,6 +123,7 @@ begin
 		raise notice 'truncating table erp_cust_az12';
 		truncate table bronze.erp_cust_az12;
 		raise notice 'loading data from erp to erp_cust_az12 table';
+		start_time :=clock_timestamp();
 		copy bronze.erp_cust_az12 
 		from '/app/datasets/source_erp/CUST_AZ12.csv'
 			with 
@@ -119,9 +132,11 @@ begin
 				delimiter ',', 
 				null ''
 			);
+		end_time :=clock_timestamp();
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted;
 		raise notice 'load complete to erp_cust_az12';	
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 
@@ -129,6 +144,7 @@ begin
 		raise notice 'truncating table erp_loc_a101';
 		truncate table bronze.erp_loc_a101;
 		raise notice 'loading data from erp to erp_loc_a101 table';
+		start_time :=clock_timestamp();
 		copy bronze.erp_loc_a101 
 		from '/app/datasets/source_erp/LOC_A101.csv'
 			with 
@@ -137,9 +153,11 @@ begin
 				delimiter ',', 
 				null ''
 			);
+		end_time :=clock_timestamp();
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted;
 		raise notice 'load complete to erp_loc_a101';	
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 
@@ -147,6 +165,7 @@ begin
 		raise notice 'truncating table erp_px_cat_g1v2';
 		truncate table bronze.erp_px_cat_g1v2;
 		raise notice 'loading data from erp to erp_px_cat_g1v2 table';
+		start_time :=clock_timestamp();
 		copy bronze.erp_px_cat_g1v2 
 		from '/app/datasets/source_erp/PX_CAT_G1V2.csv'
 			with
@@ -155,9 +174,11 @@ begin
 				delimiter ',',
 				null ''
 			);
+		end_time :=clock_timestamp();
 		GET DIAGNOSTICS rows_inserted = ROW_COUNT;
 		RAISE NOTICE 'Rows inserted: %', rows_inserted;
 		raise notice 'load complete to erp_px_cat_g1v2';
+		raise notice 'total copy time is % sec',extract(seconds from age(end_time,start_time));
 		raise notice '----------------------------------------------';
 
 		raise notice '======================================================';
