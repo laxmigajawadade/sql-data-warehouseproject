@@ -51,6 +51,8 @@ start_time TIMESTAMP;
 end_time TIMESTAMP;
 begin
 	 
+
+	 
 	raise notice '========================================';
 	raise notice 'loading data into bronze tables: start';
 	raise notice '========================================';
